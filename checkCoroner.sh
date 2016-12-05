@@ -47,7 +47,7 @@ fi
 
 filename="output"$codecSerial".txt"
  #echo $filename
- echo Codec Serial = ${codecSerial} >> ../$filename
+ echo Codec Serial = ${codecSerial} > ../$filename
  echo Phone Serial = ${phoneSerial} >> ../$filename
  echo Camera Serial = ${cameraSerial} >> ../$filename
 #unit="good" > ../output.txt + $unit
@@ -64,10 +64,12 @@ fi
 tempFanStatus="normal"; #get ready to check fans
 
 if [ -f sysmon.txt ]; then
- codecfans="$(cat sysmon.txt | awk '/fan/ {print $3}')"
- fan0avg="$(echo "${codecfans}" | awk 'FNR ==1 {print}')"
- fan1avg="$(echo "${codecfans}" | awk 'FNR ==2 {print}')"
+ codecfans="$(cat sysmon.txt | awk '/fan/ {print $3}' | tr -d '"')"
+ fan0avg="$(echo "${codecfans}" | awk 'FNR ==1 {print}')" 
+ fan1avg="$(echo "${codecfans}" | awk 'FNR ==2 {print}')" 
  tempFanStatus="$(cat sysmon.txt | awk '/overheated/ {print $3}')"
+ echo Fan 0 RPM "${fan0avg}" >> ../$filename
+ echo Fan 1 RPM "${fan1avg}" >> ../$filename
 fi
 if [ -f tempmon.txt ]; then
  count=0;
@@ -107,11 +109,6 @@ if [ -f tempmon.txt ]; then
   else
    fan0avg=$(($total / $count))
   fi
-  if [ "$fan0avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number' 
-   echo Fan Speed High: "${fan0avg}"
-   unit="not bad, not great"
-   tempFanStatus="badfan"
-  fi
   count=0;
   total=0;
   for i in $( awk '{print $20}' tempmon.txt) ##check status
@@ -132,15 +129,21 @@ if [ -f tempmon.txt ]; then
   else
    fan1avg=$(($total / $count))
   fi
-  if [ "$fan1avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number' 
-   echo Fan Speed High: "${fan1avg}" 
-   unit="not bad, not great"
-   tempFanStatus="badfan"
-  fi
+  
  fi
  echo Fan 0 RPM "${fan0avg}" >> ../$filename
  echo Fan 1 RPM "${fan1avg}" >> ../$filename
  echo Temperature Status = "${tempFanStatus}" >> ../$filename
+fi
+if [ "$fan0avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number' 
+ echo Fan Speed High: "${fan0avg}"
+ unit="not bad, not great"
+ tempFanStatus="badfan"
+fi
+if [ "$fan1avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number' 
+ echo Fan Speed High: "${fan1avg}" 
+ unit="not bad, not great"
+ tempFanStatus="badfan"
 fi
 
 
