@@ -132,8 +132,8 @@ fi
 
 
 function 220WatchdogPowerFaults { 
- numWatchDogFaults="$(tail -n 40 'reset.log' | awk '/Watchdog/ {print $11}' | wc -l)" ## need to verify 
- numPowerFaults="$(tail -n 40 'reset.log' | awk '/PowerFault/ {print $11}' | wc -l )" ## need to verify
+ numWatchDogFaults="$(tail -n 40 'reset.log' | awk '/WDOG/ {print $11}' | wc -l)"  
+ numPowerFaults="$(tail -n 40 'reset.log' | awk '/POWR/ {print $11}' | wc -l )" 
  echo Number of Watchdog Faults: "${numWatchDogFaults}" >> ../$filename 
  echo Number of PowerFaults: "${numPowerFaults}" >> ../$filename 
  if [ "$numWatchDogFaults" -gt 3 ]; then
