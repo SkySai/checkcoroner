@@ -6,7 +6,8 @@ if [ $# -eq 0 ]; then
 
  read coroner
 else
- coroner="$1"
+ coroner="$@"
+ echo "$@"
 fi
 
  mkdir NightmareOfMadness
@@ -45,8 +46,6 @@ function 220CheckFans {
  fan0avg="$(echo "${codecfans}" | awk 'FNR ==1 {print}')" 
  fan1avg="$(echo "${codecfans}" | awk 'FNR ==2 {print}')" 
  tempFanStatus="$(cat sysmon.txt | awk '/overheated/ {print $3}' | tr -d \")"
-# echo Fan 0 RPM "${fan0avg}" >> ../$filename
-# echo Fan 1 RPM "${fan1avg}" >> ../$filename
 }
 
 function checkVersion {
@@ -179,7 +178,6 @@ function iconCoreDumps {
  cd data
  coreDumpsCount=0;
  cd cores
- #echo "$(ls -la | grep "core")" >> ../$filename
  coreDumpsCount="$(ls -la | grep "core" | wc -l)" 
  echo Number of Coredump Files in this coroner: "${coreDumpsCount}" >> ../../../$filename
  if [ "$coreDumpsCount" -gt 3 ]; then

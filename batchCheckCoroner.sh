@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in $(ls | grep -v output | grep -v NightmareOfMadness) 
+for i in *
 do
  checkCoroner.sh $i
 done
