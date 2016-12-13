@@ -7,7 +7,6 @@ if [ $# -eq 0 ]; then
  read coroner
 else
  coroner="$@"
- echo "$@"
 fi
 
  mkdir NightmareOfMadness
@@ -29,7 +28,7 @@ function 220ExtractSerial {
  codecPhoneSerial="$(cat pref1.txt | awk ' /systemboard/  {print $3}' | tr -d \")"
  codecSerial="$(echo "${codecPhoneSerial}" | awk 'FNR ==1 {print}')"
  phoneSerial="$(echo "${codecPhoneSerial}" | awk 'FNR ==2 {print}')"
- cameraSerial="$(cat pref1.txt | awk ' /sn_camera/ {print $3}' | awk 'FNR ==1 {print}')"
+ cameraSerialArray="$(cat pref1.txt | awk ' /sn_camera/ {print $3}' | grep -v "none" )"
 }
 
 function iconExtractSerial {
@@ -226,7 +225,13 @@ fi
 filename="output"$codecSerial".txt"
 echo Codec Serial = ${codecSerial} > ../$filename
 echo Phone Serial = ${phoneSerial} >> ../$filename
-echo Camera Serial = ${cameraSerial} >> ../$filename
+#echo Camera Serial = ${cameraSerial} >> ../$filename
+for i in ${cameraSerialArray}
+do
+	echo Camera Serial = $i >> ../$filename
+done
+
+
 checkVersion
 
 
