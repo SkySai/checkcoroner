@@ -139,7 +139,7 @@ function 220WatchdogPowerFaults {
   ResetLogOutput="more than 3 watchDogFaults found"
  fi 
  if [ "$numPowerFaults" -gt 3 ]; then
-  unit="bad"
+  #unit="bad"
   ResetLogOutput="more than 3 powerFaults Found"
  fi 
 }  
@@ -156,7 +156,7 @@ function iconWatchdogPowerFaults {
   ResetLogOutput="more than 3 watchDogFaults found"
  fi 
  if [ "$numPowerFaults" -gt 3 ]; then
-  unit="bad"
+  #unit="bad"
   ResetLogOutput="more than 3 powerFaults Found"
  fi 
  cd ..
