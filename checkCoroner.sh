@@ -28,7 +28,7 @@ function 220ExtractSerial {
  codecPhoneSerial="$(cat pref1.txt | awk ' /systemboard/  {print $3}' | tr -d \")"
  codecSerial="$(echo "${codecPhoneSerial}" | awk 'FNR ==1 {print}')"
  phoneSerial="$(echo "${codecPhoneSerial}" | awk 'FNR ==2 {print}')"
- cameraSerialArray="$(cat pref1.txt | awk ' /sn_camera/ {print $3}' | grep -v "none" )"
+ cameraSerial="$(cat pref1.txt | awk ' /sn_camera/ {print $3}' | grep -v "none" )"
 }
 
 function iconExtractSerial {
@@ -226,7 +226,7 @@ filename="output"$codecSerial".txt"
 echo Codec Serial = ${codecSerial} > ../$filename
 echo Phone Serial = ${phoneSerial} >> ../$filename
 #echo Camera Serial = ${cameraSerial} >> ../$filename
-for i in ${cameraSerialArray}
+for i in ${cameraSerial}
 do
 	echo Camera Serial = $i >> ../$filename
 done
