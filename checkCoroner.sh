@@ -190,7 +190,7 @@ cd ..
 function 220CheckIFConfig { 
 numCarrierErrors="$(cat ifconfig.txt | grep carrier | awk -F ":" 'FNR==1 {print $6}')"
  if [ "$numCarrierErrors" -gt 10 ]; then
-  #unit="bad"
+  unit="bad"
   ifConfigOutput="number of Carrier errors exceeds 10"
  fi
  numFrameErrors="$(cat ifconfig.txt | grep frame | awk -F ":" 'FNR==1 {print $6}')"
@@ -205,7 +205,7 @@ function iconCheckIFConfig {
 numCarrierErrors="$(cat ifconfig.txt | grep carrier | awk -F ":" 'FNR==1 {print $6}')"
  echo "$(head -10 ifconfig.txt)" >> ../$filename
  if [ "$numCarrierErrors" -gt 10 ]; then
-  #unit="bad"
+  unit="bad"
   ifConfigOutput="number of Carrier errors exceeds 10"
  fi
  numFrameErrors="$(cat ifconfig.txt | grep frame | awk -F ":" 'FNR==1 {print $6}')"
