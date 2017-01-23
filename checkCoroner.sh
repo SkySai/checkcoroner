@@ -44,7 +44,7 @@ function 220CheckFans {
  codecfans="$(cat sysmon.txt | awk ' /fan/ {print $3}' | tr -d \")"
  fan0avg="$(echo "${codecfans}" | awk 'FNR ==1 {print}')" 
  fan1avg="$(echo "${codecfans}" | awk 'FNR ==2 {print}')" 
- tempFanStatus="$(cat sysmon.txt | awk '/overheated/ {print $3}' | tr -d \")"
+ tempFanStatus="$(cat sysmon.txt | awk '/overheated/ {print $3}' | tr -d \")"  # tr -d \" takes out the "" from the output
 }
 
 function checkVersion {
@@ -66,15 +66,15 @@ for i in $( awk '{print $7}' tempmon.txt) #get average of fan1
  done
  if [ "$total" -le 0 ]; then
   echo A fan has failed >> ../$filename
-  unit="bad"
-  tempFanStatus="badfan"
+  #unit="bad"
+  #tempFanStatus="badfan"
  else
   fan1avg=$(($total / $count))
  fi
  if [ "$fan1avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number' 
   echo Fan Speed High: "${fan1avg}" 
-  unit="bad"
-  tempFanStatus="badfan"
+  #unit="bad"
+  #tempFanStatus="badfan"
  fi
 }
 
@@ -87,8 +87,8 @@ for i in $( awk '{print $17}' tempmon.txt) #get average of fan0
   done
   if [ "$total" -le 0 ]; then
    echo A fan has failed >> ../$filename
-   unit="bad"
-   tempFanStatus="badfan"
+   #unit="bad"
+   #tempFanStatus="badfan"
   else
    fan0avg=$(($total / $count))
   fi
@@ -107,8 +107,8 @@ for i in $( awk '{print $17}' tempmon.txt) #get average of fan0
   done
   if [ "$total" -le 0 ]; then
    echo A fan has failed >> ../$filename
-   unit="bad"
-   tempFanStatus="badfan"
+   #unit="bad"
+   #tempFanStatus="badfan"
   else
    fan1avg=$(($total / $count))
   fi
@@ -118,13 +118,13 @@ for i in $( awk '{print $17}' tempmon.txt) #get average of fan0
 function fanLogic {
 if [ "$fan0avg" -gt 4500 ]; then #logic for checking if fan0 avg exceeds 'number' 
  echo Fan Speed High: "${fan0avg}"
- unit="not bad, not great"
- tempFanStatus="badfan"
+# unit="not bad, not great"
+ #tempFanStatus="badfan"
 fi
 if [ "$fan1avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number' 
  echo Fan Speed High: "${fan1avg}" 
- unit="not bad, not great"
- tempFanStatus="badfan"
+# unit="not bad, not great"
+ #tempFanStatus="badfan"
 fi
 }
 
@@ -190,13 +190,13 @@ cd ..
 function 220CheckIFConfig { 
 numCarrierErrors="$(cat ifconfig.txt | grep carrier | awk -F ":" 'FNR==1 {print $6}')"
  if [ "$numCarrierErrors" -gt 10 ]; then
-  unit="bad"
+  #unit="bad"
   ifConfigOutput="number of Carrier errors exceeds 10"
  fi
  numFrameErrors="$(cat ifconfig.txt | grep frame | awk -F ":" 'FNR==1 {print $6}')"
  echo "$(head -10 ifconfig.txt)" >> ../$filename
  if [ "$numFrameErrors" -gt 10 ]; then
-  unit="bad"
+  #unit="bad"
   ifConfigOutput="number of Frame errors exceeds 10"
  fi
 } 
@@ -205,12 +205,12 @@ function iconCheckIFConfig {
 numCarrierErrors="$(cat ifconfig.txt | grep carrier | awk -F ":" 'FNR==1 {print $6}')"
  echo "$(head -10 ifconfig.txt)" >> ../$filename
  if [ "$numCarrierErrors" -gt 10 ]; then
-  unit="bad"
+  #unit="bad"
   ifConfigOutput="number of Carrier errors exceeds 10"
  fi
  numFrameErrors="$(cat ifconfig.txt | grep frame | awk -F ":" 'FNR==1 {print $6}')"
  if [ "$numFrameErrors" -gt 10 ]; then
-  unit="bad"
+  #unit="bad"
   ifConfigOutput="number of Frame errors exceeds 10"
  fi
 }
