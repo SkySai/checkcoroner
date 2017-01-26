@@ -134,13 +134,15 @@ function 220WatchdogPowerFaults {
  numPowerFaults="$(tail -n 40 'reset.log' | awk '/POWR/ {print $11}' | wc -l )" 
  echo Number of Watchdog Faults: "${numWatchDogFaults}" >> ../$filename 
  echo Number of PowerFaults: "${numPowerFaults}" >> ../$filename 
- if [ "$numWatchDogFaults" -gt 3 ]; then
-  unit="bad"
-  ResetLogOutput="more than 3 watchDogFaults found"
- fi 
+
  if [ "$numPowerFaults" -gt 3 ]; then
   #unit="bad"
   ResetLogOutput="more than 3 powerFaults Found"
+ fi 
+ 
+  if [ "$numWatchDogFaults" -gt 3 ]; then
+  unit="bad"
+  ResetLogOutput="more than 3 watchDogFaults found"
  fi 
 }  
 
@@ -151,13 +153,15 @@ function iconWatchdogPowerFaults {
  numPowerFaults="$(tail -n 40 'reset.log' | awk '/PowerFault/ {print $11}' | wc -l )" 
  echo Number of Watchdog Faults: "${numWatchDogFaults}" >> ../../$filename
  echo Number of PowerFaults: "${numPowerFaults}" >> ../../$filename
- if [ "$numWatchDogFaults" -gt 3 ]; then
-  unit="bad"
-  ResetLogOutput="more than 3 watchDogFaults found"
- fi 
+ 
  if [ "$numPowerFaults" -gt 3 ]; then
   #unit="bad"
   ResetLogOutput="more than 3 powerFaults Found"
+ fi 
+ 
+ if [ "$numWatchDogFaults" -gt 3 ]; then
+  unit="bad"
+  ResetLogOutput="more than 3 watchDogFaults found"
  fi 
  cd ..
 }	
