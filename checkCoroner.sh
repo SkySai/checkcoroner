@@ -172,7 +172,7 @@ coreDumpsCount="$(ls -la | grep "core" | wc -l)"
 ((coreDumpsCount--))
 echo Number of Coredump Files in this coroner: "${coreDumpsCount}" >> ../$filename
 if [ "$coreDumpsCount" -gt 3 ]; then
- unit="bad"
+ #unit="bad"
  CoreDumpsOutput="more than 3 coredumps found"
 fi 
 }
@@ -184,7 +184,7 @@ function iconCoreDumps {
  coreDumpsCount="$(ls -la | grep "core" | wc -l)" 
  echo Number of Coredump Files in this coroner: "${coreDumpsCount}" >> ../../../$filename
  if [ "$coreDumpsCount" -gt 3 ]; then
-  unit="bad"
+  #unit="bad"
   CoreDumpsOutput="more than 3 coredumps found"
  fi 
  cd ..
@@ -290,11 +290,11 @@ if [ -f data.tgz ]; then
 fi
 
 
-echo Unit is "${unit}"
+#echo Unit is "${unit}"
 
 echo -n "
 
-*********************************************
+Unit is "${unit}" 
 
 Coroner Information:
 
@@ -306,7 +306,6 @@ Coroner Information:
 6) ifconfig 					"${ifConfigOutput}"
 
 
-*********************************************
 "
 
 cd ..
