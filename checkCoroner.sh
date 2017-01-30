@@ -76,6 +76,12 @@ for i in $( awk '{print $7}' tempmon.txt) #get average of fan1
   #unit="bad"
   #tempFanStatus="badfan"
  fi
+ for i in $( awk '{print $8}' tempmon.txt) ##check status
+  do
+   if [ "$i" != "normal" ]; then
+    tempFanStatus="$i"
+   fi
+  done
 }
 
 
