@@ -57,7 +57,7 @@ fi
 } 
 
 function 220checkStatus {
- numFailedStatus="$(cat pref1.txt | grep status | grep ready | grep -c false)"
+ numFailedStatus="$(cat pref1.txt | grep status | grep ready | grep -i -c false)"
  if [ "$numFailedStatus" -gt 0 ]; then
   echo A PRIMARY SYSTEM FUNCTION HAS FAILED
   unit="bad"
