@@ -56,6 +56,13 @@ if [ -f sysinfo.txt ]; then
 fi
 } 
 
+function 220checkStatus {
+ numFailedStatus="$(cat pref1.txt | grep status | grep ready | grep -c false)"
+ if [ "$numFailedStatus" -gt 0 ]; then
+  echo A PRIMARY SYSTEM FUNCTION HAS FAILED
+  unit="bad"
+ fi
+}
 
 function i400CheckFans { 
 echo "This is an Icon 400, please check fans manually" 
@@ -295,6 +302,10 @@ if [ -f data.tgz ]; then
  iconCheckIFConfig
 fi
 
+#checkStatus
+if [ -f reset.log ]; then
+ 220checkStatus
+fi
 
 #echo Unit is "${unit}"
 
