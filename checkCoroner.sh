@@ -38,7 +38,6 @@ function iconExtractSerial {
  cameraSerial="$(cat sysinfo.txt | awk ' /info.camera.hdmi0.serialnumber/ {print $3}')"
 }
 
-
 function 220CheckFans {
  codecfans="$(cat sysmon.txt | awk '/fan/ {print $3}' | tr -d '"')"
  codecfans="$(cat sysmon.txt | awk ' /fan/ {print $3}' | tr -d \")"
@@ -91,7 +90,6 @@ for i in $( awk '{print $7}' tempmon.txt) #get average of fan1
   done
 }
 
-
 function iconCheckFans {
 for i in $( awk '{print $17}' tempmon.txt) #get average of fan0
   do
@@ -127,7 +125,6 @@ for i in $( awk '{print $17}' tempmon.txt) #get average of fan0
   fi
 }
 
-
 function fanLogic {
 if [ "$fan0avg" -gt 4500 ]; then #logic for checking if fan0 avg exceeds 'number' 
  echo Fan Speed High: "${fan0avg}"
@@ -140,7 +137,6 @@ if [ "$fan1avg" -gt 4500 ]; then #logic for checking if fan1 avg exceeds 'number
  #tempFanStatus="badfan"
 fi
 }
-
 
 function 220WatchdogPowerFaults { 
  numWatchDogFaults="$(tail -n 40 'reset.log' | awk '/WDOG/ {print $11}' | wc -l)"  
@@ -231,28 +227,27 @@ numCarrierErrors="$(cat ifconfig.txt | grep carrier | awk -F ":" 'FNR==1 {print 
   ifConfigOutput="number of Frame errors exceeds 10"
  fi
 }
-	
+
+function iconCheckRootfs { 
+
+ echo "$(cat df.txt | awk 'FNR==2 {print} ')" >> ../$filename
+
+} 
+####START###	
 if [ -f pref1.txt ]; then 
  220ExtractSerial
 fi
 if [ -f sysinfo.txt ]; then
  iconExtractSerial
 fi
-
 filename="output"$codecSerial".txt"
 echo Codec Serial = ${codecSerial} > ../$filename
 echo Phone Serial = ${phoneSerial} >> ../$filename
-#echo Camera Serial = ${cameraSerial} >> ../$filename
 for i in ${cameraSerial}
 do
 	echo Camera Serial = $i >> ../$filename
 done
-
-
 checkVersion
-
-
-#checkTemperature
 tempFanStatus="normal"; #get ready to check fans - set as "normal" - other functions can change this value to "bad" 
 if [ -f sysmon.txt ]; then
  220CheckFans
@@ -274,7 +269,6 @@ echo Fan 0 RPM "${fan0avg}" >> ../$filename
 echo Fan 1 RPM "${fan1avg}" >> ../$filename
 echo Temperature Status = "${tempFanStatus}" >> ../$filename
 
-  
 #checkResetLog
 if [ -f sysmon.txt ]; then
  220WatchdogPowerFaults
@@ -290,7 +284,6 @@ if [ -f sysinfo.txt ]; then
  iconCoreDumps
 fi
 
-
 #checkIFCONFIG
 numCarrierErrors=0;
 numFrameErrors=0;
@@ -305,6 +298,10 @@ fi
 #checkStatus
 if [ -f reset.log ]; then
  220checkStatus
+fi
+
+if [ -f data.tgz ]; then
+ iconCheckRootfs
 fi
 
 #echo Unit is "${unit}"
