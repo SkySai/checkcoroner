@@ -21,4 +21,4 @@ Currently we still check the values, but only fail reporting false in any of the
 /local/var/status/ready/license = "true"
 /local/var/status/ready/system = "false" <<<< 
 
-The icons don't have this data to awk for in the logs yet. 
+ 
